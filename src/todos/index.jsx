@@ -9,9 +9,9 @@ export default class TODOS extends Component {
         super(props);
         this.state = {
             todos: [
-                {id: 1, content: '吃饭'},
-                {id: 2, content: '睡觉'},
-                {id: 3, content: '写代码'},
+                {id: 1, content: '运动', isComplete: false},
+                {id: 2, content: '练习', isComplete: false},
+                {id: 3, content: '写代码', isComplete: true}
             ],
             checked: true
         }
@@ -36,7 +36,9 @@ export default class TODOS extends Component {
                         <List.Item key={item.id}>
                             <List.Item.Meta avatar={
                                 <Radio></Radio>
-                            } title={item.content}>
+                            } title={
+                                <span className={item.isComplete?'complete': ''}>{item.content}</span>
+                            }>
                             </List.Item.Meta>
                             <div>
                                 <Icon type="close" style={{cursor: "pointer"}}/>
