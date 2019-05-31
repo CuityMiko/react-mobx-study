@@ -19,7 +19,6 @@ class TodoList extends Component {
 
     render() {
         const {todos} = this.props;
-        console.log(todos);
         return (
             <Fragment>
                 <Divider dashed={true}>todos</Divider>

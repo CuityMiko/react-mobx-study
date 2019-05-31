@@ -1,6 +1,14 @@
 import React, {Component, Fragment} from 'react';
 import {Input, Button} from 'antd';
+import {connect} from 'react-redux';
+import {actions} from '../store/modules/todos';
 
+const mapStates = null;
+const mapActions = {
+    addTodo: actions.addTodoItem
+}
+
+@connect(mapStates, mapActions)
 class Header extends Component {
     constructor(props) {
         super(props);
@@ -13,6 +21,11 @@ class Header extends Component {
      */
     handleClick = () => {
         const {inputVal} = this.state;
+        if (inputVal) {
+            this.props.addTodo(inputVal);
+            this.setState({inputVal: ''});
+        }
+        
     }
     render() {
         const {inputVal} = this.state;

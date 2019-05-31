@@ -7,6 +7,11 @@ const initTodoList = (data) => ({
     data: fromJS(data)
 })
 
+export const addTodoItem = (todoitem) => ({
+    type: actionTypes.ADDTODOITEM,
+    data: todoitem
+})
+
 export const getTodoList = () => {
     return dispatch => {
         axios.get('/api/todoList.json').then(res => {
