@@ -12,6 +12,11 @@ export const addTodoItem = (todoitem) => ({
     data: todoitem
 })
 
+export const deleteTodoItem = (id) => ({
+    type: actionTypes.DELETETODOITEM,
+    data: id
+})
+
 export const getTodoList = () => {
     return dispatch => {
         axios.get('/api/todoList.json').then(res => {

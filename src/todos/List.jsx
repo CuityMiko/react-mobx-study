@@ -9,12 +9,17 @@ const mapStates = state => ({
     todos: state.getIn(['todo', 'todos'])
 })
 const mapActions = {
-    getTodoList: actions.getTodoList
+    getTodoList: actions.getTodoList,
+    deleteTodoItem: actions.deleteTodoItem
 }
 @connect(mapStates, mapActions)
 class TodoList extends Component {
     componentDidMount() {
         this.props.getTodoList();
+    }
+
+    deleteTodo = (id) => {
+        this.props.deleteTodoItem(id);
     }
 
     render() {
@@ -26,7 +31,7 @@ class TodoList extends Component {
                     size="small"
                     bordered
                     dataSource={todos}
-                    renderItem={item => <TodoItem item={item} />}
+                    renderItem={item => <TodoItem item={item} deleteTodo={this.deleteTodo}/>}
                 />
             </Fragment>
         )

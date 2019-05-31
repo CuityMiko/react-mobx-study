@@ -1,4 +1,4 @@
-import {fromJS} from 'immutable';
+import {fromJS, } from 'immutable';
 import * as actionTtpes from './action.types';
 
 const initState = fromJS({
@@ -17,6 +17,12 @@ export default (state = initState, action) => {
                 content: action.data
             }
             return state.set('todos', state.get('todos').push(fromJS(todoItem)));
+        case actionTtpes.DELETETODOITEM:
+            let _todos = state.get('todos');
+            let _id = action.data;
+            let _index = _todos.findIndex(c => c.id == _id);
+            let newtodos = _todos.splice(_index, 1);
+            return state.set('todos', newtodos);
         default:
             return state;
     }

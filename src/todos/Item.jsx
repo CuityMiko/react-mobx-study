@@ -2,7 +2,7 @@ import React from 'react';
 import {List, Icon, Radio} from 'antd';
 
 export default (props) => {
-    const {item} = props;
+    const {item, deleteTodo} = props;
     return (
         <List.Item key={item.get('id')}>
             <List.Item.Meta avatar={
@@ -12,7 +12,7 @@ export default (props) => {
             }>
             </List.Item.Meta>
             <div>
-                <Icon type="close" style={{cursor: "pointer"}}/>
+                <Icon type="close" style={{cursor: "pointer"}} onClick={() => deleteTodo(item.get('id'))}/>
             </div>
         </List.Item>
     )
