@@ -1,7 +1,8 @@
-import {fromJS, } from 'immutable';
+import {fromJS} from 'immutable';
 import * as actionTtpes from './action.types';
 
 const initState = fromJS({
+    status: 0, // 0: 全部 1: 进行中 2: 已完成
     todos: []
 })
 
@@ -10,19 +11,56 @@ export default (state = initState, action) => {
         case actionTtpes.GETTODOLIST: // 获取列表
             return state.set('todos', action.data);
         case actionTtpes.ADDTODOITEM: // 新增
+            let newtodos1 = JSON.parse(sessionStorage.getItem('todos'));
             let todoItem = {
                 id: parseInt(Math.random() * 10000), 
                 created: new Date().getTime(), 
                 isComplete: false,
                 content: action.data
             }
-            return state.set('todos', state.get('todos').push(fromJS(todoItem)));
+            newtodos1.push(todoItem);
+            sessionStorage.setItem('todos', JSON.stringify(newtodos1));
+            return state.set('todos', fromJS(newtodos1));
         case actionTtpes.DELETETODOITEM:
-            let _todos = state.get('todos');
+            let _todos = JSON.parse(sessionStorage.getItem('todos'));
             let _id = action.data;
             let _index = _todos.findIndex(c => c.id == _id);
-            let newtodos = _todos.splice(_index, 1);
-            return state.set('todos', newtodos);
+            _todos.splice(_index, 1);
+            sessionStorage.setItem('todos', JSON.stringify(_todos));
+            return state.set('todos', fromJS(_todos));
+        case actionTtpes.GETTODOSBYSTATUS: 
+            let _newtodos = JSON.parse(sessionStorage.getItem('todos'));
+            let _todosbyStatus = [];
+            switch (action.data) {
+                case 0:
+                    _todosbyStatus = fromJS(_newtodos);
+                    break;
+                case 1:
+                    _todosbyStatus = fromJS(_newtodos.filter(c => !c.isComplete))
+                    break;
+                case 2:
+                    _todosbyStatus = fromJS(_newtodos.filter(c => c.isComplete))
+                    break;
+                default:
+                    _todosbyStatus = fromJS(_newtodos);
+                    break;
+            }
+            return state.merge({
+                'status': fromJS(action.data),
+                'todos': _todosbyStatus
+            });
+        case actionTtpes.UPDATETODOITEM:
+            let _currtodos = JSON.parse(sessionStorage.getItem('todos'));
+            _currtodos.map(c => {
+                if (c.id == action.data) {
+                    return c.isComplete = true;
+                }
+            })
+            sessionStorage.setItem('todos', JSON.stringify(_currtodos));
+            return state.set('todos', fromJS(_currtodos));
+        case actionTtpes.CLEARTODOS:
+            sessionStorage.setItem('todos', JSON.stringify([]));
+            return state.set('todos', fromJS([]));
         default:
             return state;
     }

@@ -2,29 +2,40 @@ import React, {Component} from 'react';
 import {Divider, Tag, Button} from 'antd';
 import {FooterWrapper} from './styles';
 import {connect} from 'react-redux';
+import { actions } from '../store/modules/todos';
 
 const { CheckableTag } = Tag;
 
 const mapStates = state => ({
-    todos: state.getIn(['todo', 'todos'])
+    todos: state.getIn(['todo', 'todos']),
+    status: state.getIn(['todo', 'status'])
 })
-const mapActions = null;
+const mapActions = {
+    getTodosByStatus: actions.getTodosByStatus,
+    clearTodos: actions.clearTodos
+};
 @connect(mapStates, mapActions)
 class Footer extends Component {
+    changeStatus = (status) => {
+        this.props.getTodosByStatus(status);
+    }
+    clearTodos = () => {
+        this.props.clearTodos();
+    }
     render() {
-        const {todos} = this.props;
+        const {todos, status} = this.props;
         return (
             <FooterWrapper>
                 <span>共</span>
                 <strong>{todos.size}</strong>
                 <span>项</span>
                 <Divider type="vertical"/>
-                <CheckableTag checked={true}>全部</CheckableTag>
+                <CheckableTag checked={status == 0} onChange={() => this.changeStatus(0)}>全部</CheckableTag>
                 <Divider type="vertical"/>
-                <CheckableTag checked={true}>进行中</CheckableTag>
+                <CheckableTag checked={status == 1} onChange={() => this.changeStatus(1)}>进行中</CheckableTag>
                 <Divider type="vertical"/>
-                <CheckableTag checked={true}>已完成</CheckableTag>
-                <Button type="default" icon="delete" size="small" style={{float: "right"}}>清 空</Button>
+                <CheckableTag checked={status == 2} onChange={() => this.changeStatus(2)}>已完成</CheckableTag>
+                <Button type="default" icon="delete" size="small" style={{float: "right"}} onClick={this.clearTodos}>清 空</Button>
                 <Divider style={{marginTop: "15px"}}/>
             </FooterWrapper>
         )

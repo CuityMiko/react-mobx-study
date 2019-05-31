@@ -17,9 +17,24 @@ export const deleteTodoItem = (id) => ({
     data: id
 })
 
+export const getTodosByStatus = (status) => ({
+    type: actionTypes.GETTODOSBYSTATUS,
+    data: status
+})
+
+export const updateTodoItem = (id) => ({
+    type: actionTypes.UPDATETODOITEM,
+    data: id
+})
+
+export const clearTodos = () => ({
+    type: actionTypes.CLEARTODOS
+})
+
 export const getTodoList = () => {
     return dispatch => {
         axios.get('/api/todoList.json').then(res => {
+            sessionStorage.setItem('todos', JSON.stringify(res.data));
             dispatch(initTodoList(res.data))
         })
     }

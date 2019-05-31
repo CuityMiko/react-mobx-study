@@ -10,7 +10,8 @@ const mapStates = state => ({
 })
 const mapActions = {
     getTodoList: actions.getTodoList,
-    deleteTodoItem: actions.deleteTodoItem
+    deleteTodoItem: actions.deleteTodoItem,
+    updateTodoItem: actions.updateTodoItem
 }
 @connect(mapStates, mapActions)
 class TodoList extends Component {
@@ -22,6 +23,10 @@ class TodoList extends Component {
         this.props.deleteTodoItem(id);
     }
 
+    completeTodo = (id) => {
+        this.props.updateTodoItem(id);
+    }
+
     render() {
         const {todos} = this.props;
         return (
@@ -31,7 +36,7 @@ class TodoList extends Component {
                     size="small"
                     bordered
                     dataSource={todos}
-                    renderItem={item => <TodoItem item={item} deleteTodo={this.deleteTodo}/>}
+                    renderItem={item => <TodoItem item={item} deleteTodo={this.deleteTodo} completeTodo={this.completeTodo}/>}
                 />
             </Fragment>
         )
