@@ -1,27 +1,25 @@
 import React, {Component, Fragment} from 'react';
 import {Divider, List} from 'antd';
+import {connect} from 'react-redux';
+import {actions} from '../store/modules/todos';
 
 import TodoItem from './Item';
 
+const mapStates = state => ({
+    todos: state.getIn(['todo', 'todos'])
+})
+const mapActions = {
+    getTodoList: actions.getTodoList
+}
+@connect(mapStates, mapActions)
 class TodoList extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            todos: [
-                {id: 1, content: '运动', isComplete: false},
-                {id: 2, content: '练习', isComplete: false},
-                {id: 3, content: '写代码', isComplete: true}
-            ],
-            checked: true
-        }
-    }
-    
-    handleChange = (checked) => {
-        this.setState({ checked });
+    componentDidMount() {
+        this.props.getTodoList();
     }
 
     render() {
-        const {todos, checked} = this.state;
+        const {todos} = this.props;
+        console.log(todos);
         return (
             <Fragment>
                 <Divider dashed={true}>todos</Divider>
