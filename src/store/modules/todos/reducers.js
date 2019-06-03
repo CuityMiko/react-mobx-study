@@ -6,6 +6,30 @@ const initState = fromJS({
     todos: []
 })
 
+/**
+ * 根据状态获取数据
+ * @param {*} data 
+ * @param {*} status 
+ */
+const getTodoListData = (data, status) => {
+    let _todosbyStatus = [];
+    switch (status) {
+        case 0:
+            _todosbyStatus = data;
+            break;
+        case 1:
+            _todosbyStatus = data.filter(c => !c.isComplete);
+            break;
+        case 2:
+            _todosbyStatus = data.filter(c => c.isComplete);
+            break;
+        default:
+            _todosbyStatus = data;
+            break;
+    }
+    return _todosbyStatus;
+}
+
 export default (state = initState, action) => {
     switch (action.type) {
         case actionTtpes.GETTODOLIST: // 获取列表
@@ -20,34 +44,20 @@ export default (state = initState, action) => {
             }
             newtodos1.push(todoItem);
             sessionStorage.setItem('todos', JSON.stringify(newtodos1));
-            return state.set('todos', fromJS(newtodos1));
+            return state.set('todos', fromJS(getTodoListData(newtodos1, state.get('status'))));
         case actionTtpes.DELETETODOITEM:
             let _todos = JSON.parse(sessionStorage.getItem('todos'));
             let _id = action.data;
             let _index = _todos.findIndex(c => c.id == _id);
             _todos.splice(_index, 1);
             sessionStorage.setItem('todos', JSON.stringify(_todos));
-            return state.set('todos', fromJS(_todos));
+            return state.set('todos', fromJS(getTodoListData(_todos, state.get('status'))));
         case actionTtpes.GETTODOSBYSTATUS: 
             let _newtodos = JSON.parse(sessionStorage.getItem('todos'));
-            let _todosbyStatus = [];
-            switch (action.data) {
-                case 0:
-                    _todosbyStatus = fromJS(_newtodos);
-                    break;
-                case 1:
-                    _todosbyStatus = fromJS(_newtodos.filter(c => !c.isComplete))
-                    break;
-                case 2:
-                    _todosbyStatus = fromJS(_newtodos.filter(c => c.isComplete))
-                    break;
-                default:
-                    _todosbyStatus = fromJS(_newtodos);
-                    break;
-            }
+            let _todosbyStatus = getTodoListData(_newtodos, action.data);
             return state.merge({
                 'status': fromJS(action.data),
-                'todos': _todosbyStatus
+                'todos': fromJS(_todosbyStatus)
             });
         case actionTtpes.UPDATETODOITEM:
             let _currtodos = JSON.parse(sessionStorage.getItem('todos'));
@@ -57,7 +67,7 @@ export default (state = initState, action) => {
                 }
             })
             sessionStorage.setItem('todos', JSON.stringify(_currtodos));
-            return state.set('todos', fromJS(_currtodos));
+            return state.set('todos', fromJS(getTodoListData(_currtodos, state.get('status'))));
         case actionTtpes.CLEARTODOS:
             sessionStorage.setItem('todos', JSON.stringify([]));
             return state.set('todos', fromJS([]));

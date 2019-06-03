@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import {Divider, Tag, Button} from 'antd';
 import {FooterWrapper} from './styles';
 import {connect} from 'react-redux';
@@ -15,7 +15,7 @@ const mapActions = {
     clearTodos: actions.clearTodos
 };
 @connect(mapStates, mapActions)
-class Footer extends Component {
+class Footer extends PureComponent {
     changeStatus = (status) => {
         this.props.getTodosByStatus(status);
     }
