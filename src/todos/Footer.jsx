@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import {Divider, Tag, Button} from 'antd';
 import {FooterWrapper} from './styles';
 
 const { CheckableTag } = Tag;
 
-class Footer extends Component {
+class Footer extends PureComponent {
     render() {
         return (
             <FooterWrapper>
