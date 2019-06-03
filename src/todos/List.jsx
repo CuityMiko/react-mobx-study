@@ -1,4 +1,4 @@
-import React, {Component, Fragment} from 'react';
+import React, {PureComponent, Fragment} from 'react';
 import {Divider, List} from 'antd';
 import {connect} from 'react-redux';
 import {actions} from '../store/modules/todos';
@@ -14,7 +14,7 @@ const mapActions = {
     updateTodoItem: actions.updateTodoItem
 }
 @connect(mapStates, mapActions)
-class TodoList extends Component {
+class TodoList extends PureComponent {
     componentDidMount() {
         this.props.getTodoList(111);
     }

@@ -67,7 +67,7 @@ export default (state = initState, action) => {
                 }
             })
             sessionStorage.setItem('todos', JSON.stringify(_currtodos));
-            return state.set('todos', fromJS(_currtodos));
+            return state.set('todos', fromJS(getTodoListData(_currtodos, state.get('status'))));
         case actionTtpes.CLEARTODOS:
             sessionStorage.setItem('todos', JSON.stringify([]));
             return state.set('todos', fromJS([]));

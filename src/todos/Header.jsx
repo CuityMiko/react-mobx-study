@@ -1,4 +1,4 @@
-import React, {Component, Fragment} from 'react';
+import React, {PureComponent, Fragment} from 'react';
 import {Input, Button} from 'antd';
 import {connect} from 'react-redux';
 import {actions} from '../store/modules/todos';
@@ -9,7 +9,7 @@ const mapActions = {
 }
 
 @connect(mapStates, mapActions)
-class Header extends Component {
+class Header extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {

@@ -1,4 +1,4 @@
-import React, {Component, PureComponent} from 'react';
+import React, {PureComponent} from 'react';
 import {Divider, Tag, Button} from 'antd';
 import {FooterWrapper} from './styles';
 import {connect} from 'react-redux';
