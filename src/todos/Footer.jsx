@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, PureComponent} from 'react';
 import {Divider, Tag, Button} from 'antd';
 import {FooterWrapper} from './styles';
 import {connect} from 'react-redux';
@@ -15,7 +15,7 @@ const mapActions = {
     clearTodos: actions.clearTodos
 };
 @connect(mapStates, mapActions)
-class Footer extends Component {
+class Footer extends PureComponent {
     changeStatus = (status) => {
         this.props.getTodosByStatus(status);
     }
@@ -25,7 +25,7 @@ class Footer extends Component {
     render() {
         const {todos, status} = this.props;
         return (
-            <FooterWrapper>
+                todos ? <FooterWrapper>
                 <span>共</span>
                 <strong>{todos.size}</strong>
                 <span>项</span>
@@ -37,7 +37,7 @@ class Footer extends Component {
                 <CheckableTag checked={status == 2} onChange={() => this.changeStatus(2)}>已完成</CheckableTag>
                 <Button type="default" icon="delete" size="small" style={{float: "right"}} onClick={this.clearTodos}>清 空</Button>
                 <Divider style={{marginTop: "15px"}}/>
-            </FooterWrapper>
+            </FooterWrapper> : null
         )
     }
 }

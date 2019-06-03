@@ -16,7 +16,7 @@ const mapActions = {
 @connect(mapStates, mapActions)
 class TodoList extends Component {
     componentDidMount() {
-        this.props.getTodoList();
+        this.props.getTodoList(111);
     }
 
     deleteTodo = (id) => {
