@@ -1,15 +1,19 @@
-import React, {PureComponent} from 'react';
+import React, {Component} from 'react';
 import {Divider, Tag, Button} from 'antd';
 import {FooterWrapper} from './styles';
+import {inject, observer} from 'mobx-react';
 
 const { CheckableTag } = Tag;
 
-class Footer extends PureComponent {
+@inject("TodoStore")
+@observer
+class Footer extends Component {
     render() {
+        const {TodoStore: {unDoCount}} = this.props;
         return (
             <FooterWrapper>
                 <span>共</span>
-                <strong>3</strong>
+                <strong>{unDoCount}</strong>
                 <span>项</span>
                 <Divider type="vertical"/>
                 <CheckableTag checked={true}>全部</CheckableTag>
