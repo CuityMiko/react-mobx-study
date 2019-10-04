@@ -16,6 +16,15 @@ class Header extends PureComponent {
             inputVal: ''
         }
     }
+
+    componentDidMount() {
+        fetch('/users/CuityMiko/followers').then((res) => {
+            return res.json()
+        }).then(data => {
+            console.log(data, 'data')
+        })
+    }
+
     /**
      * 点击添加
      */
