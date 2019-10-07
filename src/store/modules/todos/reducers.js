@@ -40,7 +40,7 @@ export default (state = initState, action) => {
                 id: parseInt(Math.random() * 10000), 
                 created: new Date().getTime(), 
                 isComplete: false,
-                content: action.data
+                content: action.data + ''
             }
             newtodos1.push(todoItem);
             sessionStorage.setItem('todos', JSON.stringify(newtodos1));
